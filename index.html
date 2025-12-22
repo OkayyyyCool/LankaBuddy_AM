@@ -331,19 +331,13 @@
                                 <i class="fa-solid fa-taxi text-xl"></i>
                              </div>
                              <div class="text-left">
-                                 <div class="flex items-center space-x-2">
-                                     <span class="font-bold text-lg">PickMe</span>
-                                 </div>
+                                 <span class="font-bold block text-lg">PickMe</span>
                                  <span class="text-xs font-medium opacity-70">Best Local Taxi App</span>
                              </div>
                          </div>
                          
-                         <!-- Small Store Icons -->
-                         <div class="flex space-x-1 opacity-80">
-                             <i class="fa-brands fa-apple text-lg"></i>
-                             <span class="text-gray-600">|</span>
-                             <i class="fa-brands fa-google-play text-lg"></i>
-                         </div>
+                         <!-- Arrow Icon (Replaces Store Icons) -->
+                         <i class="fa-solid fa-chevron-right text-black/50 text-lg"></i>
                      </button>
                 </div>
             </div>
@@ -643,10 +637,8 @@
             const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
             
             if (isAndroid) {
-                // FIXED: Use Package-Based Intent.
-                // This tells Android to launch the app with this Package ID directly.
-                // If not found, it executes the S.browser_fallback_url.
-                window.location.href = 'intent:#Intent;scheme=pickme;package=com.pickme.passenger;S.browser_fallback_url=https://play.google.com/store/apps/details?id=com.pickme.passenger;end';
+                // Android Intent for pickme
+                window.location.href = 'intent://#Intent;scheme=pickme;package=com.pickme.passenger;S.browser_fallback_url=https://play.google.com/store/apps/details?id=com.pickme.passenger;end';
             } 
             else if (isIOS) {
                 // iOS Fallback method
@@ -1259,4 +1251,3 @@
     </script>
 </body>
 </html>
-
