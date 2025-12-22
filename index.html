@@ -639,6 +639,7 @@
             if (isAndroid) {
                 // Updated Android Intent: Request to LAUNCH the app directly (Main Activity).
                 // This doesn't rely on a specific 'pickme://' scheme, just the package existence.
+                window.location.href = 'intent:#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=com.pickme.passenger;end';
             } 
             else if (isIOS) {
                 // iOS Fallback method
@@ -1251,5 +1252,6 @@
     </script>
 </body>
 </html>
+
 
 
