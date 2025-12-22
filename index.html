@@ -348,6 +348,26 @@
                 </div>
             </div>
 
+            <!-- Food Header -->
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold mb-4">Food & Delivery</h2>
+                <div class="grid grid-cols-1 gap-4">
+                     <!-- Uber Eats -->
+                     <a href="https://www.ubereats.com/" target="_blank" class="bg-green-100 text-green-900 p-4 rounded-xl flex items-center justify-between shadow-lg active:scale-95 transition border border-green-200">
+                         <div class="flex items-center space-x-3">
+                             <div class="bg-white w-10 h-10 rounded-full flex items-center justify-center text-green-600 shadow-sm">
+                                <i class="fa-solid fa-utensils text-xl"></i>
+                             </div>
+                             <div>
+                                 <span class="font-bold block text-lg">Uber Eats</span>
+                                 <span class="text-xs text-green-700">Order Food</span>
+                             </div>
+                         </div>
+                         <i class="fa-solid fa-chevron-right text-green-400"></i>
+                     </a>
+                </div>
+            </div>
+
             <!-- Locations -->
             <h2 class="text-xl font-bold mb-4">Trip Locations</h2>
             
@@ -619,17 +639,25 @@
         // --- Transport Logic ---
         function openPickMe() {
             const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            const isAndroid = /android/i.test(userAgent);
+            const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
             
-            // iOS Detection
-            if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-                window.location.href = "https://apps.apple.com/lk/app/pickme-sri-lanka/id1006015699";
+            if (isAndroid) {
+                // Try to open via Android Intent (Best method for Android)
+                // This attempts to open the app package. If fails, browser_fallback_url sends to Store.
+                window.location.href = 'intent://#Intent;package=com.pickme.passenger;scheme=pickme;S.browser_fallback_url=https://play.google.com/store/apps/details?id=com.pickme.passenger;end';
             } 
-            // Android Detection
-            else if (/android/i.test(userAgent)) {
-                window.location.href = "https://play.google.com/store/apps/details?id=com.pickme.passenger";
+            else if (isIOS) {
+                // iOS Fallback method
+                const now = new Date().valueOf();
+                setTimeout(function () {
+                    if (new Date().valueOf() - now > 100) return;
+                    window.location.href = "https://apps.apple.com/lk/app/pickme-sri-lanka/id1006015699";
+                }, 25);
+                window.location.href = "pickme://";
             }
-            // Desktop / Other
             else {
+                // Desktop / Other
                 window.open("https://pickme.lk/", "_blank");
             }
         }
