@@ -3,14 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sri Lanka 2024 ❤️</title>
+    <title>Travel Companion ❤️</title>
     
-    <!-- PWA Manifest & Meta -->
-    <meta name="theme-color" content="#0d9488">
+    <!-- iOS Web App Config -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="SL Trip">
-    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlNyaSBMYW5rYSBUcmlwIDIwMjQiCwogICJzaG9ydF9uYW1lIjogIlNMIFRyaXAiCwogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29xvciI6ICIjZjBmZGZjIiwKICAidGhlbWVfY29sb3IiOiAiIzBkOTQ4OCIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImh0dHBzOi8vY2RuLnd3d2xpZmUuY29tL3Byb2plY3RzL2ZsaWdodC1pY29uLnBuZyIsCiAgICAgICJzaXplcyI6ICIxOTJ4MTkyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgogICAgfQogIF0KfQ==">
+    <meta name="apple-mobile-web-app-title" content="Travel Companion">
+    <!-- Uses the same scenic image for the app icon -->
+    <link rel="apple-touch-icon" href="https://drive.google.com/uc?export=view&id=1QY9xE0tbxKJiCxDJCNNnz8jKo7Pz1NSa">
+
+    <!-- PWA Manifest (Android) -->
+    <meta name="theme-color" content="#0d9488">
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlRyYXZlbCBDb21wYW5pb24iLAogICJzaG9ydF9uYW1lIjogIlRyYXZlbCIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjZjBmZGZjIiwKICAidGhlbWVfY29sb3IiOiAiIzBkOTQ4OCIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImh0dHBzOi8vZHJpdmUuZ29vZ2xlLmNvbS91Yz9leHBvcnQ9dmlldyZpZD0xUVk5eEUwdGJ4S0ppQ3hESkNOTno4aktvN1B6MU5TYSIsCiAgICAgICJzaXplcyI6ICIxOTJ4MTkyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvanBlZyIKICAgIH0KICBdCn0=">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -52,7 +56,7 @@
 <body class="bg-gray-50 text-gray-800 min-h-screen pb-24">
 
     <!-- Header -->
-    <header class="relative text-white pt-12 pb-6 px-6 rounded-b-[2rem] shadow-lg z-30 sticky top-0 overflow-hidden bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/d/1QY9xE0tbxKJiCxDJCNNnz8jKo7Pz1NSa');">
+    <header class="relative text-white pt-12 pb-6 px-6 rounded-b-[2rem] shadow-lg z-30 sticky top-0 overflow-hidden bg-cover bg-center" style="background-image: url('header.jpg');">
         <!-- Overlay for better text readability -->
         <div class="absolute inset-0 bg-black/40 z-0"></div>
         
@@ -139,10 +143,10 @@
                         <span class="text-sm font-medium text-teal-900">Visa & Other docs</span>
                     </button>
                     
-                    <!-- Map (New Link) -->
+                    <!-- Travel (Renamed from Map) -->
                     <button onclick="switchTab('map')" class="bg-teal-50 border border-teal-100 p-3 rounded-xl flex items-center space-x-3 hover:bg-teal-100 transition w-full text-left">
                         <i class="fa-solid fa-map text-teal-600"></i>
-                        <span class="text-sm font-medium text-teal-900">Map</span>
+                        <span class="text-sm font-medium text-teal-900">Travel</span>
                     </button>
                 </div>
             </div>
@@ -264,40 +268,34 @@
                          <i class="fa-solid fa-chevron-right text-gray-600"></i>
                      </a>
                      
-                     <!-- PickMe -->
-                     <div class="bg-yellow-400 text-black p-4 rounded-xl shadow-lg">
-                         <div class="flex items-center space-x-3 mb-3">
+                     <!-- PickMe (Redesigned) -->
+                     <button onclick="openPickMe()" class="w-full bg-yellow-400 text-black p-4 rounded-xl shadow-lg active:scale-95 transition flex items-center justify-between">
+                         <div class="flex items-center space-x-3">
                              <div class="bg-yellow-500/50 w-10 h-10 rounded-full flex items-center justify-center border border-yellow-600/20">
                                 <i class="fa-solid fa-taxi text-xl"></i>
                              </div>
-                             <div>
-                                 <span class="font-bold block">PickMe Sri Lanka</span>
+                             <div class="text-left">
+                                 <div class="flex items-center space-x-2">
+                                     <span class="font-bold text-lg">PickMe</span>
+                                 </div>
                                  <span class="text-xs font-medium opacity-70">Best Local Taxi App</span>
                              </div>
                          </div>
                          
-                         <div class="flex space-x-2">
-                             <a href="https://apps.apple.com/lk/app/pickme-sri-lanka/id1006015699" target="_blank" class="flex-1 bg-black text-white py-2 px-3 rounded-lg flex items-center justify-center space-x-2 hover:bg-gray-900 transition">
-                                 <i class="fa-brands fa-apple text-lg"></i>
-                                 <div class="text-left leading-tight">
-                                     <div class="text-[8px] uppercase text-gray-400">Download on</div>
-                                     <div class="text-xs font-bold">App Store</div>
-                                 </div>
-                             </a>
-                             <a href="https://play.google.com/store/apps/details?id=com.pickme.passenger" target="_blank" class="flex-1 bg-black text-white py-2 px-3 rounded-lg flex items-center justify-center space-x-2 hover:bg-gray-900 transition">
-                                 <i class="fa-brands fa-google-play text-lg"></i>
-                                 <div class="text-left leading-tight">
-                                     <div class="text-[8px] uppercase text-gray-400">Get it on</div>
-                                     <div class="text-xs font-bold">Google Play</div>
-                                 </div>
-                             </a>
+                         <!-- Small Store Icons -->
+                         <div class="flex space-x-1 opacity-80">
+                             <i class="fa-brands fa-apple text-lg"></i>
+                             <span class="text-gray-600">|</span>
+                             <i class="fa-brands fa-google-play text-lg"></i>
                          </div>
-                     </div>
+                     </button>
                 </div>
             </div>
 
             <!-- Locations -->
             <h2 class="text-xl font-bold mb-4">Trip Locations</h2>
+            
+            <!-- Warning Removed -->
             
             <div id="maps-container" class="space-y-4">
                <!-- Dynamic Map Cards -->
@@ -457,13 +455,11 @@
         ];
         
         const defaultMaps = [
-            { title: "Murphy’s Villa", loc: "Colombo", query: "Murphy’s Villa, Colombo" },
-            { title: "Sigiriya Fortress", loc: "Sigiriya", query: "Sigiriya Lion Rock" },
-            { title: "Hill Crest Greens", loc: "Kandy", query: "Hill Crest Greens, Kandy" },
-            { title: "Ella Town", loc: "Ella", query: "Ella, Sri Lanka" },
-            { title: "Adam's Peak", loc: "Sripada", query: "Adam's Peak Sri Lanka" },
-            { title: "Mirissa Beach", loc: "Mirissa", query: "Mirissa Beach" },
-            { title: "Sneha's Place", loc: "Hyderabad", query: "Hyderabad, Telangana" }
+            { title: "Sigiriya Fortress", loc: "Sigiriya", query: "https://maps.app.goo.gl/PkJQxnNG5Fj79Ag88" },
+            { title: "Kandy", loc: "Kandy City", query: "https://maps.app.goo.gl/6qqNsPmswbd4it7TA" },
+            { title: "Ella Town", loc: "Ella", query: "https://maps.app.goo.gl/v6k2CX6XSJcz1zAT8" },
+            { title: "Adam's Peak", loc: "Sripada", query: "https://maps.app.goo.gl/c1hiRFSFhTnKjRcBA" },
+            { title: "Mirissa Beach", loc: "Mirissa", query: "https://maps.app.goo.gl/63dXmesi4R17Ttz26" },
         ];
         
         const defaultContacts = [
@@ -526,6 +522,24 @@
             // Use Google Search for translation (more reliable on mobile than app deep links)
             const url = `https://www.google.com/search?q=translate+${encodeURIComponent(text)}+to+sinhala`;
             window.open(url, '_blank');
+        }
+
+        // --- Transport Logic ---
+        function openPickMe() {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            
+            // iOS Detection
+            if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                window.location.href = "https://apps.apple.com/lk/app/pickme-sri-lanka/id1006015699";
+            } 
+            // Android Detection
+            else if (/android/i.test(userAgent)) {
+                window.location.href = "https://play.google.com/store/apps/details?id=com.pickme.passenger";
+            }
+            // Desktop / Other
+            else {
+                window.open("https://pickme.lk/", "_blank");
+            }
         }
 
         // --- Generic Data Loading ---
