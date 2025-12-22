@@ -9,8 +9,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="LankaBuddy">
-    <!-- Uses the local icon.png for the app icon (User must upload this!) -->
-    <link rel="apple-touch-icon" href="icon.png">
+    <!-- Uses the local icon.jpg for the app icon (User must upload this!) -->
+    <link rel="apple-touch-icon" href="icon.jpg">
 
     <!-- PWA Manifest Placeholder (Will be filled by JS) -->
     <link rel="manifest" id="pwa-manifest">
@@ -30,8 +30,8 @@
         (function() {
             // 1. Get the base URL of where the website is hosted
             const baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
-            // 2. Create the full absolute path to the image (Must be icon.png for square aspect ratio)
-            const iconUrl = baseUrl + 'icon.png';
+            // 2. Create the full absolute path to the image (Must be icon.jpg for square aspect ratio)
+            const iconUrl = baseUrl + 'icon.jpg';
 
             // 3. Build the Manifest Object
             const manifest = {
@@ -45,12 +45,12 @@
                     {
                         "src": iconUrl, // Absolute URL is critical for Android
                         "sizes": "192x192",
-                        "type": "image/png"
+                        "type": "image/jpeg"
                     },
                     {
                         "src": iconUrl,
                         "sizes": "512x512",
-                        "type": "image/png"
+                        "type": "image/jpeg"
                     }
                 ]
             };
@@ -149,7 +149,7 @@
                     <i class="fa-solid fa-xmark"></i>
                 </button>
                 <div class="flex items-start space-x-4">
-                    <img src="icon.png" class="w-12 h-12 rounded-xl object-cover shadow-sm" alt="Icon" onerror="this.src='header.jpg'">
+                    <img src="icon.jpg" class="w-12 h-12 rounded-xl object-cover shadow-sm" alt="Icon" onerror="this.src='header.jpg'">
                     <div>
                         <h3 class="font-bold text-gray-800">Install LankaBuddy</h3>
                         <p class="text-xs text-gray-500 mt-1 leading-relaxed">
@@ -1081,6 +1081,17 @@
             manualText.classList.add('hidden');
         });
 
+        // 2. Listen for successful install event (Fires when user installs via menu or button)
+        window.addEventListener('appinstalled', () => {
+            // Hide everything immediately
+            if (installCard) installCard.classList.add('hidden');
+            if (iosHint) iosHint.classList.add('hidden');
+            deferredPrompt = null;
+            // Remember that user installed it, so we don't show prompt again on this browser
+            localStorage.setItem('isAppInstalled', 'true');
+            console.log('PWA was installed');
+        });
+
         function installApp() {
             if (deferredPrompt) {
                 // If we have the native prompt captured, show it
@@ -1088,6 +1099,7 @@
                 deferredPrompt.userChoice.then((choiceResult) => {
                     if (choiceResult.outcome === 'accepted') {
                         installCard.classList.add('hidden');
+                        localStorage.setItem('isAppInstalled', 'true');
                     }
                     deferredPrompt = null;
                 });
@@ -1099,12 +1111,17 @@
             }
         }
 
-        // 2. Logic to Show/Hide Prompts based on Device & Install Status
+        // 3. Logic to Show/Hide Prompts based on Device & Install Status
         function checkInstallStatus() {
+            // Check if user previously installed it
+            if (localStorage.getItem('isAppInstalled') === 'true') {
+                return; // Do nothing (keep hidden)
+            }
+
             const isIos = /iPhone|iPad|iPod/.test(navigator.userAgent) && !window.MSStream;
             const isStandalone = window.matchMedia('(display-mode: standalone)').matches || ('standalone' in window.navigator && window.navigator.standalone);
             
-            // If app is already installed, hide everything
+            // If app is currently running in standalone mode, hide everything
             if (isStandalone) {
                 installCard.classList.add('hidden');
                 iosHint.classList.add('hidden');
