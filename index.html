@@ -353,18 +353,18 @@
                 <h2 class="text-2xl font-bold mb-4">Food & Delivery</h2>
                 <div class="grid grid-cols-1 gap-4">
                      <!-- Uber Eats -->
-                     <a href="https://www.ubereats.com/" target="_blank" class="bg-green-100 text-green-900 p-4 rounded-xl flex items-center justify-between shadow-lg active:scale-95 transition border border-green-200">
+                     <button onclick="openUberEats()" class="w-full bg-green-100 text-green-900 p-4 rounded-xl flex items-center justify-between shadow-lg active:scale-95 transition border border-green-200">
                          <div class="flex items-center space-x-3">
                              <div class="bg-white w-10 h-10 rounded-full flex items-center justify-center text-green-600 shadow-sm">
                                 <i class="fa-solid fa-utensils text-xl"></i>
                              </div>
-                             <div>
+                             <div class="text-left">
                                  <span class="font-bold block text-lg">Uber Eats</span>
                                  <span class="text-xs text-green-700">Order Food</span>
                              </div>
                          </div>
                          <i class="fa-solid fa-chevron-right text-green-400"></i>
-                     </a>
+                     </button>
                 </div>
             </div>
 
@@ -643,9 +643,10 @@
             const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
             
             if (isAndroid) {
-                // Try to open via Android Intent (Best method for Android)
-                // This attempts to open the app package. If fails, browser_fallback_url sends to Store.
-                window.location.href = 'intent://#Intent;package=com.pickme.passenger;scheme=pickme;S.browser_fallback_url=https://play.google.com/store/apps/details?id=com.pickme.passenger;end';
+                // Improved Android Intent: uses https scheme to trigger App Links
+                // This targets the package explicitly. If app is installed and handles its own links, it opens.
+                // Fallback is the Play Store URL.
+                window.location.href = 'intent://pickme.lk/#Intent;scheme=https;package=com.pickme.passenger;S.browser_fallback_url=https://play.google.com/store/apps/details?id=com.pickme.passenger;end';
             } 
             else if (isIOS) {
                 // iOS Fallback method
@@ -659,6 +660,29 @@
             else {
                 // Desktop / Other
                 window.open("https://pickme.lk/", "_blank");
+            }
+        }
+
+        function openUberEats() {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            const isAndroid = /android/i.test(userAgent);
+            const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+            
+            if (isAndroid) {
+                // Android Intent for Uber Eats
+                window.location.href = 'intent://ubereats.com/#Intent;scheme=https;package=com.ubercab.eats;S.browser_fallback_url=https://play.google.com/store/apps/details?id=com.ubercab.eats;end';
+            } 
+            else if (isIOS) {
+                // iOS Logic
+                const now = new Date().valueOf();
+                setTimeout(function () {
+                    if (new Date().valueOf() - now > 100) return;
+                    window.location.href = "https://apps.apple.com/us/app/uber-eats-food-delivery/id1058959277";
+                }, 25);
+                window.location.href = "ubereats://";
+            }
+            else {
+                window.open("https://www.ubereats.com/", "_blank");
             }
         }
 
