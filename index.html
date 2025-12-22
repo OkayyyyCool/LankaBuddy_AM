@@ -643,13 +643,13 @@
             const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
             
             if (isAndroid) {
-                // Corrected Android Intent: Uses 'pickme' scheme directly.
-                // This tells Android to find an app that handles 'pickme://'. 
-                // If found (Package match), it opens. If not, it uses browser_fallback_url (Play Store).
-                window.location.href = 'intent://#Intent;scheme=pickme;package=com.pickme.passenger;S.browser_fallback_url=https://play.google.com/store/apps/details?id=com.pickme.passenger;end';
+                // FIXED: Use Package-Based Intent.
+                // This tells Android to launch the app with this Package ID directly.
+                // If not found, it executes the S.browser_fallback_url.
+                window.location.href = 'intent:#Intent;package=com.pickme.passenger;S.browser_fallback_url=https://play.google.com/store/apps/details?id=com.pickme.passenger;end';
             } 
             else if (isIOS) {
-                // iOS Fallback method: Try to open app, if still on page after 1.5s, go to store.
+                // iOS Fallback method
                 const now = new Date().valueOf();
                 setTimeout(function () {
                     if (new Date().valueOf() - now > 2000) return;
@@ -669,7 +669,7 @@
             const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
             
             if (isAndroid) {
-                // Corrected Android Intent for Uber Eats using 'ubereats' scheme
+                // Android Intent for Uber Eats
                 window.location.href = 'intent://#Intent;scheme=ubereats;package=com.ubercab.eats;S.browser_fallback_url=https://play.google.com/store/apps/details?id=com.ubercab.eats;end';
             } 
             else if (isIOS) {
