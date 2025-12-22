@@ -643,18 +643,18 @@
             const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
             
             if (isAndroid) {
-                // Improved Android Intent: uses https scheme to trigger App Links
-                // This targets the package explicitly. If app is installed and handles its own links, it opens.
-                // Fallback is the Play Store URL.
-                window.location.href = 'intent://pickme.lk/#Intent;scheme=https;package=com.pickme.passenger;S.browser_fallback_url=https://play.google.com/store/apps/details?id=com.pickme.passenger;end';
+                // Corrected Android Intent: Uses 'pickme' scheme directly.
+                // This tells Android to find an app that handles 'pickme://'. 
+                // If found (Package match), it opens. If not, it uses browser_fallback_url (Play Store).
+                window.location.href = 'intent://#Intent;scheme=pickme;package=com.pickme.passenger;S.browser_fallback_url=https://play.google.com/store/apps/details?id=com.pickme.passenger;end';
             } 
             else if (isIOS) {
-                // iOS Fallback method
+                // iOS Fallback method: Try to open app, if still on page after 1.5s, go to store.
                 const now = new Date().valueOf();
                 setTimeout(function () {
-                    if (new Date().valueOf() - now > 100) return;
+                    if (new Date().valueOf() - now > 2000) return;
                     window.location.href = "https://apps.apple.com/lk/app/pickme-sri-lanka/id1006015699";
-                }, 25);
+                }, 1500);
                 window.location.href = "pickme://";
             }
             else {
@@ -669,16 +669,16 @@
             const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
             
             if (isAndroid) {
-                // Android Intent for Uber Eats
-                window.location.href = 'intent://ubereats.com/#Intent;scheme=https;package=com.ubercab.eats;S.browser_fallback_url=https://play.google.com/store/apps/details?id=com.ubercab.eats;end';
+                // Corrected Android Intent for Uber Eats using 'ubereats' scheme
+                window.location.href = 'intent://#Intent;scheme=ubereats;package=com.ubercab.eats;S.browser_fallback_url=https://play.google.com/store/apps/details?id=com.ubercab.eats;end';
             } 
             else if (isIOS) {
                 // iOS Logic
                 const now = new Date().valueOf();
                 setTimeout(function () {
-                    if (new Date().valueOf() - now > 100) return;
+                    if (new Date().valueOf() - now > 2000) return;
                     window.location.href = "https://apps.apple.com/us/app/uber-eats-food-delivery/id1058959277";
-                }, 25);
+                }, 1500);
                 window.location.href = "ubereats://";
             }
             else {
