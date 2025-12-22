@@ -9,22 +9,51 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="LankaBuddy">
-    <!-- Uses the local header image for the app icon -->
-    <link rel="apple-touch-icon" href="header.jpg">
+    <!-- Uses the local icon.png for the app icon (User must upload this!) -->
+    <link rel="apple-touch-icon" href="icon.png">
 
-    <!-- PWA Manifest (Android) -->
-    <meta name="theme-color" content="#0d9488">
-    <!-- Updated Manifest with LankaBuddy name and local header.jpg icon -->
-    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiTGFua2FCdWRkeSIsInNob3J0X25hbWUiOiJMYW5rYUJ1ZGR5Iiwic3RhcnRfdXJsIjoiLiIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiNmMGZkZmMiLCJ0aGVtZV9jb2xvciI6IiMwZDk0ODgiLCJpY29ucyI6W3sic3JjIjoiaGVhZGVyLmpwZyIsInNpemVzIjoiMTkyeDE5MiIsInR5cGUiOiJpbWFnZS9qcGVnIn0seyJzcmMiOiJoZWFkZXIuanBnIiwic2l6ZXMiOiI1MTJ4NTEyIiwidHlwZSI6ImltYWdlL2pwZWcifV19">
+    <!-- PWA Manifest Placeholder (Will be filled by JS) -->
+    <link rel="manifest" id="pwa-manifest">
 
     <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Dynamic Manifest Script -->
+    <script>
+        // This script runs immediately to fix the Icon URL for Android
+        (function() {
+            // 1. Get the base URL of where the website is hosted
+            const baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
+            // 2. Create the full absolute path to the image (Must be icon.png for square aspect ratio)
+            const iconUrl = baseUrl + 'icon.png';
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+            // 3. Build the Manifest Object
+            const manifest = {
+                "name": "LankaBuddy",
+                "short_name": "LankaBuddy",
+                "start_url": ".",
+                "display": "standalone",
+                "background_color": "#f0fdfc",
+                "theme_color": "#0d9488",
+                "icons": [
+                    {
+                        "src": iconUrl, // Absolute URL is critical for Android
+                        "sizes": "192x192",
+                        "type": "image/png"
+                    },
+                    {
+                        "src": iconUrl,
+                        "sizes": "512x512",
+                        "type": "image/png"
+                    }
+                ]
+            };
+
+            // 4. Convert to Data URI and inject
+            const stringManifest = JSON.stringify(manifest);
+            const blob = new Blob([stringManifest], {type: 'application/json'});
+            const manifestURL = URL.createObjectURL(blob);
+            document.querySelector('#pwa-manifest').setAttribute('href', manifestURL);
+        })();
+    </script>
 
     <style>
         body { font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
@@ -82,33 +111,44 @@
         <!-- SECTION: DASHBOARD (Default) -->
         <section id="view-dashboard" class="p-4 space-y-4 fade-in">
             
-            <!-- PWA Install Prompt (Android/Desktop) - Hidden by default -->
-            <div id="install-prompt" class="hidden bg-gradient-to-r from-teal-600 to-teal-800 rounded-2xl p-4 shadow-lg text-white relative overflow-hidden">
-                 <div class="relative z-10 flex justify-between items-center">
-                     <div>
-                         <h2 class="font-bold text-lg">Install App</h2>
-                         <p class="text-xs text-teal-100">Add to home screen for offline access</p>
+            <!-- PWA Install Prompt (Android/Desktop) - Hidden by default, shown via JS -->
+            <div id="install-prompt" class="hidden bg-teal-800 rounded-2xl p-5 shadow-xl text-white relative overflow-hidden mb-6">
+                 <div class="relative z-10">
+                     <div class="flex justify-between items-start">
+                         <div>
+                             <h2 class="font-bold text-lg text-white">Get the App!</h2>
+                             <p class="text-xs text-teal-100 mt-1 mb-3 pr-4">Install LankaBuddy for easier access and offline maps.</p>
+                         </div>
+                         <div class="bg-teal-700/50 p-2 rounded-lg">
+                             <i class="fa-solid fa-download text-white"></i>
+                         </div>
                      </div>
-                     <button onclick="installApp()" class="bg-white text-teal-700 px-4 py-2 rounded-lg font-bold text-sm shadow hover:bg-gray-100 transition">
-                         Install
+                     <button onclick="installApp()" class="w-full bg-white text-teal-800 py-3 rounded-xl font-bold text-sm shadow hover:bg-gray-50 transition flex items-center justify-center space-x-2">
+                         <i class="fa-solid fa-circle-arrow-down"></i>
+                         <span>Install Now</span>
                      </button>
+                     <p id="manual-install-text" class="hidden text-[10px] text-teal-200 mt-2 text-center border-t border-teal-700 pt-2">
+                         Tap <i class="fa-solid fa-ellipsis-vertical mx-1"></i> (menu) above and select <b>"Add to Home Screen"</b> or <b>"Install App"</b>.
+                     </p>
                  </div>
                  <!-- Decoration -->
-                 <i class="fa-solid fa-mobile-screen absolute -bottom-4 -right-2 text-6xl text-white opacity-10 rotate-12"></i>
+                 <i class="fa-solid fa-mobile-screen absolute -bottom-6 -right-6 text-9xl text-white opacity-5 rotate-12"></i>
             </div>
 
             <!-- iOS Install Hint - Hidden by default -->
-            <div id="ios-install-hint" class="hidden bg-gray-100 rounded-xl p-4 border border-gray-200 relative">
-                <button onclick="this.parentElement.style.display='none'" class="absolute top-2 right-2 text-gray-400 hover:text-gray-600">
+            <div id="ios-install-hint" class="hidden bg-white rounded-2xl p-5 shadow-md border border-teal-100 relative mb-6">
+                <button onclick="this.parentElement.style.display='none'" class="absolute top-2 right-2 text-gray-300 hover:text-gray-500">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
-                <div class="flex items-start space-x-3">
-                    <div class="bg-white w-10 h-10 rounded-lg flex items-center justify-center shadow-sm text-blue-500 text-xl shrink-0">
-                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
-                    </div>
+                <div class="flex items-start space-x-4">
+                    <img src="icon.png" class="w-12 h-12 rounded-xl object-cover shadow-sm" alt="Icon" onerror="this.src='header.jpg'">
                     <div>
-                        <h3 class="font-bold text-sm text-gray-800">Install on iPhone</h3>
-                        <p class="text-xs text-gray-500 mt-1">Tap the <span class="font-bold">Share</span> button below in Safari, then select <span class="font-bold">"Add to Home Screen"</span>.</p>
+                        <h3 class="font-bold text-gray-800">Install LankaBuddy</h3>
+                        <p class="text-xs text-gray-500 mt-1 leading-relaxed">
+                            To install on iPhone:<br>
+                            1. Tap <span class="font-bold text-blue-500"><i class="fa-solid fa-arrow-up-from-bracket"></i> Share</span> below.<br>
+                            2. Scroll & tap <span class="font-bold text-gray-700"><i class="fa-regular fa-square-plus"></i> Add to Home Screen</span>.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -1022,41 +1062,60 @@
         let deferredPrompt;
         const installCard = document.getElementById('install-prompt');
         const iosHint = document.getElementById('ios-install-hint');
+        const manualText = document.getElementById('manual-install-text');
 
-        // 1. Handle Android/Desktop Chrome Install Prompt
+        // 1. Listen for the native Android event
         window.addEventListener('beforeinstallprompt', (e) => {
-            // Prevent Chrome 67 and earlier from automatically showing the prompt
             e.preventDefault();
-            // Stash the event so it can be triggered later.
             deferredPrompt = e;
-            // Update UI to notify the user they can add to home screen
-            installCard.classList.remove('hidden');
+            // We don't need to show the card here because we show it by default if !standalone.
+            // But we can ensure manual text is hidden since we have the native prompt.
+            manualText.classList.add('hidden');
         });
 
         function installApp() {
             if (deferredPrompt) {
+                // If we have the native prompt captured, show it
                 deferredPrompt.prompt();
                 deferredPrompt.userChoice.then((choiceResult) => {
                     if (choiceResult.outcome === 'accepted') {
-                        console.log('User accepted the A2HS prompt');
                         installCard.classList.add('hidden');
                     }
                     deferredPrompt = null;
                 });
+            } else {
+                // If no native prompt (e.g. Chrome didn't fire it yet, or on a browser that doesn't support it),
+                // Show manual instructions
+                manualText.classList.remove('hidden');
+                alert("To install: Tap the browser menu (⋮) and select 'Add to Home Screen' or 'Install App'.");
             }
         }
 
-        // 2. Handle iOS Detection (Show hint since they don't have a prompt button)
-        function detectIOS() {
+        // 2. Logic to Show/Hide Prompts based on Device & Install Status
+        function checkInstallStatus() {
             const isIos = /iPhone|iPad|iPod/.test(navigator.userAgent) && !window.MSStream;
-            // Check if already in standalone mode (installed)
-            const isInStandaloneMode = ('standalone' in window.navigator) && (window.navigator.standalone);
+            const isStandalone = window.matchMedia('(display-mode: standalone)').matches || ('standalone' in window.navigator && window.navigator.standalone);
             
-            if (isIos && !isInStandaloneMode) {
+            // If app is already installed, hide everything
+            if (isStandalone) {
+                installCard.classList.add('hidden');
+                iosHint.classList.add('hidden');
+                return;
+            }
+
+            // If not installed, show appropriate prompt
+            if (isIos) {
                 iosHint.classList.remove('hidden');
+                installCard.classList.add('hidden'); // Hide Android card on iOS
+            } else {
+                // Assume Android/Desktop
+                installCard.classList.remove('hidden');
+                iosHint.classList.add('hidden'); // Hide iOS hint on Android
             }
         }
-        detectIOS();
+        
+        // Run check on load
+        checkInstallStatus();
 
         switchTab('dashboard');
         renderItinerary();
