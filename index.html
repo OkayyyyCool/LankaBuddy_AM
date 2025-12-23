@@ -678,28 +678,67 @@
             });
         }
 
-        async function fetchGeminiResponse(userPrompt, systemContext = "", imageBase64 = null, imageMime = null) {
-            if (!apiKey) {
-                apiKey = prompt("API Key Required:");
-                if(!apiKey) return "Error: No API Key";
-            }
-            const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-            let parts = [{ text: systemContext ? `${systemContext}\n\nUser: ${userPrompt}` : userPrompt }];
-            if (imageBase64 && imageMime) parts.push({ inlineData: { mimeType: imageMime, data: imageBase64 } });
+//begin        
 
-            try {
-                const response = await fetch(url, {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ role: "user", parts: parts }] })
-                });
-                const data = await response.json();
-                return data.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't understand that.";
-            } catch (e) {
-                console.error(e);
-                throw e;
-            }
-        }
+    async function fetchGeminiResponse(
+    userPrompt,
+    systemContext = "",
+    imageBase64 = null,
+    imageMime = null
+) {
+    if (!apiKey) {
+        apiKey = prompt("API Key Required:");
+        if (!apiKey) return "Error: No API Key";
+    }
 
+    // Lazy-load official Gemini SDK (browser-safe ESM)
+    if (!window.__geminiModel) {
+        const { GoogleGenerativeAI } = await import(
+            "https://esm.sh/@google/generative-ai"
+        );
+
+        const genAI = new GoogleGenerativeAI(apiKey);
+        window.__geminiModel = genAI.getGenerativeModel({
+            model: "gemini-1.5-flash"
+        });
+    }
+
+    const parts = [{ text: userPrompt }];
+
+    if (imageBase64 && imageMime) {
+        parts.push({
+            inlineData: {
+                mimeType: imageMime,
+                data: imageBase64
+            }
+        });
+    }
+
+    try {
+        const result = await window.__geminiModel.generateContent({
+            contents: [
+                ...(systemContext
+                    ? [{
+                        role: "system",
+                        parts: [{ text: systemContext }]
+                    }]
+                    : []),
+                {
+                    role: "user",
+                    parts
+                }
+            ]
+        });
+
+        return result.response.text() || "No response from model.";
+    } catch (err) {
+        console.error("Gemini SDK error:", err);
+        return err.message || "Gemini request failed.";
+    }
+}
+
+//end
+        
         function openChat() { document.getElementById('chat-modal').classList.remove('hidden'); }
         function closeChat() { document.getElementById('chat-modal').classList.add('hidden'); }
 
@@ -1257,6 +1296,7 @@
 </html>
 
 f
+
 
 
 
