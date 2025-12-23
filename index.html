@@ -493,8 +493,8 @@
     </main>
 
     <!-- Floating AI Assistant Button (FAB) -->
-    <button onclick="openChat()" class="fixed bottom-24 right-4 bg-teal-600 text-white p-4 rounded-full shadow-xl z-40 active:scale-90 transition animate-float hover:bg-teal-700 flex items-center justify-center w-14 h-14 border-4 border-white/20">
-        <i class="fa-solid fa-robot text-2xl"></i>
+    <button onclick="openChat()" class="fixed bottom-24 right-4 bg-teal-600 text-white p-0 rounded-full shadow-xl z-40 active:scale-90 transition animate-float hover:bg-teal-700 flex items-center justify-center w-14 h-14 border-4 border-white/20 overflow-hidden">
+        <img src="ai_icon.png" class="w-full h-full object-cover" alt="AI">
     </button>
 
     <!-- AI Chat Modal -->
@@ -502,11 +502,9 @@
         <!-- Chat Header -->
         <div class="bg-teal-600 text-white p-4 pb-6 flex items-center justify-between shadow-lg relative z-10">
             <div class="flex items-center space-x-3">
-                <div class="bg-white/20 p-2 rounded-full">
-                    <i class="fa-solid fa-robot text-xl"></i>
-                </div>
+                <img src="ai_icon.png" class="w-10 h-10 rounded-full object-cover border-2 border-white/30 shadow-sm">
                 <div>
-                    <h3 class="font-bold text-lg">Travel Assistant ✨</h3>
+                    <h3 class="font-bold text-lg">Kim Shin ✨</h3>
                     <p class="text-xs text-teal-100">Ask about your trip!</p>
                 </div>
             </div>
@@ -516,20 +514,62 @@
         </div>
 
         <!-- Chat Area -->
-        <div id="chat-messages" class="flex-1 overflow-y-auto p-4 bg-gray-50 space-y-3 pb-24">
+        <div id="chat-messages" class="flex-1 overflow-y-auto p-4 bg-gray-50 space-y-3 pb-48">
             <!-- Messages will appear here -->
             <div class="chat-bubble chat-ai">
-                Hello! I'm your AI assistant for this Sri Lanka trip. I know your itinerary! Ask me anything about food, places, or what to pack! 🌴🐘
+                Hello! I am Kim Shin, your buddy for this trip. I know about your itinerary! Ask me anything about food, places, or what to pack! 🌴🐘
             </div>
         </div>
 
-        <!-- Input Area -->
-        <div class="p-4 bg-white border-t border-gray-200 pb-safe fixed bottom-0 w-full">
-            <div class="flex space-x-2">
-                <input type="text" id="chat-input" placeholder="Ask something..." class="flex-1 bg-gray-100 border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-teal-500 outline-none">
-                <button onclick="sendMessage()" class="bg-teal-600 text-white w-12 h-12 rounded-xl flex items-center justify-center shadow-lg active:scale-95 transition">
-                    <i class="fa-solid fa-paper-plane"></i>
+        <!-- Input Area Container -->
+        <div class="bg-white border-t border-gray-200 fixed bottom-0 w-full z-20 pb-safe transition-all duration-300">
+            
+            <!-- Chat Suggestions (Floating Examples) -->
+            <div id="chat-suggestions" class="px-4 pt-3 pb-1 flex gap-2 overflow-x-auto no-scrollbar fade-in">
+                <button onclick="useSuggestion('What is this landmark? 📸')" class="whitespace-nowrap bg-teal-50 text-teal-700 text-[10px] font-medium px-3 py-1.5 rounded-full border border-teal-100 shadow-sm active:scale-95 transition flex items-center gap-1">
+                    <i class="fa-solid fa-camera"></i> Identify this
                 </button>
+                <button onclick="useSuggestion('Translate this menu 📄')" class="whitespace-nowrap bg-teal-50 text-teal-700 text-[10px] font-medium px-3 py-1.5 rounded-full border border-teal-100 shadow-sm active:scale-95 transition flex items-center gap-1">
+                    <i class="fa-solid fa-language"></i> Translate menu
+                </button>
+                <button onclick="useSuggestion('Best dinner spots nearby? 🍜')" class="whitespace-nowrap bg-teal-50 text-teal-700 text-[10px] font-medium px-3 py-1.5 rounded-full border border-teal-100 shadow-sm active:scale-95 transition">
+                    Dinner spots? 🍜
+                </button>
+                <button onclick="useSuggestion('What should I pack for Ella? 🎒')" class="whitespace-nowrap bg-teal-50 text-teal-700 text-[10px] font-medium px-3 py-1.5 rounded-full border border-teal-100 shadow-sm active:scale-95 transition">
+                    Packing tips 🎒
+                </button>
+            </div>
+
+            <!-- Image Preview (Hidden by default) -->
+            <div id="image-preview-container" class="hidden px-4 py-2 bg-gray-50 border-b border-gray-100 flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <img id="image-preview" class="w-12 h-12 rounded-lg object-cover border border-gray-200 shadow-sm">
+                    <span class="text-xs text-gray-500 font-medium">Image attached</span>
+                </div>
+                <button onclick="clearImageSelection()" class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 text-gray-500 hover:bg-red-100 hover:text-red-500 transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Input Controls -->
+            <div class="p-4">
+                <div class="flex space-x-2 items-end">
+                    <!-- Hidden File Input -->
+                    <input type="file" id="chat-file-input" accept="image/*" class="hidden" onchange="handleImageSelect(this)">
+                    
+                    <!-- Camera Button -->
+                    <button onclick="document.getElementById('chat-file-input').click()" class="bg-gray-100 text-gray-500 w-12 h-12 rounded-xl flex items-center justify-center active:scale-95 transition hover:bg-gray-200 hover:text-teal-600">
+                        <i class="fa-solid fa-camera text-lg"></i>
+                    </button>
+                    
+                    <!-- Text Input -->
+                    <input type="text" id="chat-input" placeholder="Ask or show me something..." class="flex-1 bg-gray-100 border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-teal-500 outline-none h-12">
+                    
+                    <!-- Send Button -->
+                    <button onclick="sendMessage()" class="bg-teal-600 text-white w-12 h-12 rounded-xl flex items-center justify-center shadow-lg active:scale-95 transition hover:bg-teal-700">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -588,10 +628,12 @@
         // --- Data & State ---
         let currentType = ''; // 'flight', 'hotel', 'visa', 'contact', 'map', 'itinerary'
         let currentEditIndex = -1;
-        let apiKey = ""; // Will be prompted if empty
+        let apiKey = "AIzaSyCG1batKAUa0wpuXEhC2wRQZ3RR6vDif5g"; // Integrated Key
+        let selectedImageBase64 = null;
+        let selectedImageMime = null;
 
         // --- GEMINI API HELPERS ---
-        async function fetchGeminiResponse(userPrompt, systemContext = "") {
+        async function fetchGeminiResponse(userPrompt, systemContext = "", imageBase64 = null, imageMime = null) {
             if (!apiKey) {
                 apiKey = localStorage.getItem('gemini_api_key');
                 if (!apiKey) {
@@ -602,10 +644,25 @@
             }
 
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-            const fullPrompt = systemContext ? `${systemContext}\n\nUser: ${userPrompt}` : userPrompt;
+            
+            let parts = [];
+            
+            // Add Text Context & Prompt
+            const fullText = systemContext ? `${systemContext}\n\nUser: ${userPrompt}` : userPrompt;
+            parts.push({ text: fullText });
+
+            // Add Image if present
+            if (imageBase64 && imageMime) {
+                parts.push({
+                    inlineData: {
+                        mimeType: imageMime,
+                        data: imageBase64
+                    }
+                });
+            }
 
             const payload = {
-                contents: [{ parts: [{ text: fullPrompt }] }]
+                contents: [{ role: "user", parts: parts }]
             };
 
             try {
@@ -643,14 +700,76 @@
             document.getElementById('chat-modal').classList.add('hidden');
         }
 
+        function useSuggestion(text) {
+            const input = document.getElementById('chat-input');
+            input.value = text;
+            input.focus();
+            
+            // If it's an image suggestion, prompt user to click camera
+            if (text.includes("Identify") || text.includes("Translate")) {
+                // Highlight camera button momentarily
+                const camBtn = document.querySelector('button[onclick*="chat-file-input"]');
+                camBtn.classList.add('ring-2', 'ring-teal-500');
+                setTimeout(() => camBtn.classList.remove('ring-2', 'ring-teal-500'), 1000);
+            }
+        }
+
+        // Handle Image Selection
+        function handleImageSelect(input) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    selectedImageBase64 = e.target.result.split(',')[1]; // Remove Data URL header
+                    selectedImageMime = file.type;
+                    
+                    // Update UI
+                    document.getElementById('image-preview').src = e.target.result;
+                    document.getElementById('image-preview-container').classList.remove('hidden');
+                    
+                    // Hide suggestions when image is attached to give more space
+                    const suggestions = document.getElementById('chat-suggestions');
+                    if(suggestions) suggestions.style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function clearImageSelection() {
+            document.getElementById('chat-file-input').value = '';
+            selectedImageBase64 = null;
+            selectedImageMime = null;
+            document.getElementById('image-preview-container').classList.add('hidden');
+            
+            // Show suggestions again if chat is empty
+            const suggestions = document.getElementById('chat-suggestions');
+            if(suggestions && document.getElementById('chat-messages').childElementCount <= 1) {
+                suggestions.style.display = 'flex';
+            }
+        }
+
         async function sendMessage() {
             const input = document.getElementById('chat-input');
             const text = input.value.trim();
-            if (!text) return;
+            
+            // Validate: Must have text OR image
+            if (!text && !selectedImageBase64) return;
+
+            // Hide Suggestions on first message send
+            const suggestions = document.getElementById('chat-suggestions');
+            if(suggestions) {
+                suggestions.style.display = 'none'; // Permanently hide for this session
+                suggestions.classList.add('hidden');
+            }
 
             // Add user bubble
             const chatBox = document.getElementById('chat-messages');
-            chatBox.innerHTML += `<div class="chat-bubble chat-user">${text}</div>`;
+            let messageHtml = text;
+            if (selectedImageBase64) {
+                messageHtml += `<br><div class="flex items-center mt-1 space-x-1 opacity-70 italic text-[10px]"><i class="fa-solid fa-image"></i><span>Image attached</span></div>`;
+            }
+            
+            chatBox.innerHTML += `<div class="chat-bubble chat-user">${messageHtml}</div>`;
             input.value = "";
             chatBox.scrollTop = chatBox.scrollHeight;
 
@@ -661,13 +780,17 @@
 
             // Prepare Context
             const itinerary = loadData('itinerary');
-            const context = `You are a helpful travel assistant for Stuti's trip to Sri Lanka. 
+            const context = `You are Kim Shin, a helpful travel buddy for Stuti's trip to Sri Lanka. 
             Here is her itinerary data: ${JSON.stringify(itinerary)}. 
             Her flight details: ${JSON.stringify(loadData('flight'))}.
-            Answer strictly about the trip, local food, culture, or itinerary. Keep answers concise (under 50 words usually).`;
+            Answer strictly about the trip, local food, culture, or itinerary. Keep answers concise (under 50 words usually).
+            If an image is provided, analyze it in the context of travel (e.g., translate menu, identify landmark, explain food).`;
 
             // Call API
-            const response = await fetchGeminiResponse(text, context);
+            const response = await fetchGeminiResponse(text, context, selectedImageBase64, selectedImageMime);
+
+            // Clear image after sending
+            clearImageSelection();
 
             // Remove typing indicator and add response
             document.getElementById(typingId).remove();
@@ -704,7 +827,7 @@
                 } catch(e) {
                     // Fallback if AI returns plain text instead of JSON
                     console.error("JSON Parse failed, falling back", e);
-                    data = { sinhala: raw, pronunciation: "" };
+                    throw new Error("AI parsing failed");
                 }
 
                 if (data.sinhala) {
@@ -712,12 +835,16 @@
                     document.getElementById('t-phonetic').innerText = data.pronunciation || "";
                     document.getElementById('translate-result').classList.remove('hidden');
                 } else {
-                     alert("Could not interpret translation.");
+                     throw new Error("Incomplete translation data");
                 }
 
             } catch (e) {
                 console.error("Translation Error:", e);
-                alert("Translation failed. Please try again.");
+                // Fallback to Google Search
+                const url = `https://www.google.com/search?q=translate+${encodeURIComponent(input)}+to+sinhala`;
+                if(confirm("AI service is busy or offline. Open Google Translate?")) {
+                    window.open(url, '_blank');
+                }
             }
 
             btn.innerHTML = originalBtnText;
