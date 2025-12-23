@@ -678,64 +678,28 @@
             });
         }
 
-//begin        
-
-async function fetchGeminiResponse(
-    userPrompt,
-    systemContext = "",
-    imageBase64 = null,
-    imageMime = null
-) {
-    if (!apiKey) {
-        apiKey = prompt("API Key Required:");
-        if (!apiKey) return "Error: No API Key";
-    }
-
-    // Lazy-load Gemini SDK once
-    if (!window.__gemini) {
-        const { GoogleGenerativeAI } = await import(
-            "https://esm.sh/@google/generative-ai"
-        );
-        window.__gemini = new GoogleGenerativeAI(apikey);
-    }
-
-    // Select correct model
-    const modelName = imageBase64
-        ? "gemini-pro-vision"   // image + text
-        : "gemini-pro";         // text only
-
-    const model = window.__gemini.getGenerativeModel({ model: modelName });
-
-    // Merge system context safely (SDK does not support system role)
-    const finalPrompt = systemContext
-        ? `${systemContext}\n\nUser: ${userPrompt}`
-        : userPrompt;
-
-    const parts = [{ text: finalPrompt }];
-
-    if (imageBase64 && imageMime) {
-        parts.push({
-            inlineData: {
-                mimeType: imageMime,
-                data: imageBase64
+        async function fetchGeminiResponse(userPrompt, systemContext = "", imageBase64 = null, imageMime = null) {
+            if (!apiKey) {
+                apiKey = prompt("API Key Required:");
+                if(!apiKey) return "Error: No API Key";
             }
-        });
-    }
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+            let parts = [{ text: systemContext ? `${systemContext}\n\nUser: ${userPrompt}` : userPrompt }];
+            if (imageBase64 && imageMime) parts.push({ inlineData: { mimeType: imageMime, data: imageBase64 } });
 
-    try {
-        const result = await model.generateContent({
-            contents: [{ role: "user", parts }]
-        });
+            try {
+                const response = await fetch(url, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ role: "user", parts: parts }] })
+                });
+                const data = await response.json();
+                return data.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't understand that.";
+            } catch (e) {
+                console.error(e);
+                throw e;
+            }
+        }
 
-        return result.response.text() || "No response from model.";
-    } catch (err) {
-        console.error("Gemini SDK error:", err);
-        return "AI error. Please try again.";
-    }
-}
-
-//end
-        
         function openChat() { document.getElementById('chat-modal').classList.remove('hidden'); }
         function closeChat() { document.getElementById('chat-modal').classList.add('hidden'); }
 
@@ -1291,5 +1255,3 @@ async function fetchGeminiResponse(
     </script>
 </body>
 </html>
-
-
