@@ -679,6 +679,16 @@
         }
         setInterval(updateSriLankaTime, 1000);
         updateSriLankaTime();
+        
+        function playAudio(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'si-LK'; 
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alert("Audio not supported");
+            }
+        }
 
         function formatDateToOrdinal(dateStr) {
             const regex = /^\d{4}-\d{2}-\d{2}$/;
