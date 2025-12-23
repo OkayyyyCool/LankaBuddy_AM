@@ -89,6 +89,19 @@
         .modal-enter-active { opacity: 1; transform: scale(1); transition: opacity 200ms, transform 200ms; }
         .modal-exit { opacity: 1; transform: scale(1); }
         .modal-exit-active { opacity: 0; transform: scale(0.95); transition: opacity 200ms, transform 200ms; }
+
+        /* Chat Bubbles */
+        .chat-bubble { max-width: 80%; padding: 10px 14px; border-radius: 16px; font-size: 13px; line-height: 1.4; margin-bottom: 8px; position: relative; }
+        .chat-user { background-color: #0d9488; color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+        .chat-ai { background-color: #f3f4f6; color: #1f2937; align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid #e5e7eb; }
+        .typing-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background-color: #9ca3af; animation: typing 1.4s infinite ease-in-out both; margin: 0 1px; }
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes typing { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+        
+        /* Floating Action Button Animation */
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-5px); } 100% { transform: translateY(0px); } }
+        .animate-float { animation: float 3s ease-in-out infinite; }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800 min-h-screen pb-24">
@@ -400,16 +413,24 @@
         <!-- SECTION: TOOLS (Translate) -->
         <section id="view-tools" class="p-4 hidden pb-24">
             
-             <!-- Type and Translate (New) -->
-            <div class="bg-gradient-to-br from-teal-500 to-teal-700 rounded-2xl p-6 shadow-md mb-6 text-white">
-                <h3 class="font-bold text-lg mb-2"><i class="fa-solid fa-language mr-2"></i>Type & Translate</h3>
-                <p class="text-xs text-teal-100 mb-4">Type in English to translate to Sinhala on Google.</p>
+             <!-- Type and Translate (Updated with Gemini) -->
+            <div class="bg-gradient-to-br from-teal-500 to-teal-700 rounded-2xl p-6 shadow-md mb-6 text-white relative">
+                <h3 class="font-bold text-lg mb-2"><i class="fa-solid fa-language mr-2"></i>Translate</h3>
+                <p class="text-xs text-teal-100 mb-4">Type English to get Sinhala + pronunciation!</p>
                 <div class="space-y-3">
-                    <textarea id="translate-input" rows="2" class="w-full rounded-xl p-3 text-gray-800 text-sm outline-none shadow-inner" placeholder="Type here (e.g. I am lost)"></textarea>
-                    <button onclick="openGoogleTranslate()" class="w-full bg-white text-teal-700 font-bold py-3 rounded-xl shadow hover:bg-gray-50 transition active:scale-95 flex items-center justify-center space-x-2">
-                        <span>Translate on Google</span>
-                        <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                    <textarea id="translate-input" rows="2" class="w-full rounded-xl p-3 text-gray-800 text-sm outline-none shadow-inner" placeholder="Type here (e.g. How much is this?)"></textarea>
+                    
+                    <button onclick="translateWithGemini()" class="w-full bg-white text-teal-700 font-bold py-3 rounded-xl shadow hover:bg-gray-50 transition active:scale-95 flex items-center justify-center space-x-2" id="btn-translate">
+                        <i class="fa-solid fa-wand-magic-sparkles text-xs"></i>
+                        <span>Translate</span>
                     </button>
+                    
+                    <!-- Result Area (Hidden by default) -->
+                    <div id="translate-result" class="hidden bg-black/20 rounded-xl p-3 mt-3 border border-white/10">
+                        <p class="text-[10px] uppercase text-teal-200 mb-1">Translation:</p>
+                        <p id="t-sinhala" class="text-xl font-bold mb-1"></p>
+                        <p id="t-phonetic" class="text-xs italic text-teal-100"></p>
+                    </div>
                 </div>
             </div>
 
@@ -471,6 +492,48 @@
         </section>
     </main>
 
+    <!-- Floating AI Assistant Button (FAB) -->
+    <button onclick="openChat()" class="fixed bottom-24 right-4 bg-teal-600 text-white p-4 rounded-full shadow-xl z-40 active:scale-90 transition animate-float hover:bg-teal-700 flex items-center justify-center w-14 h-14 border-4 border-white/20">
+        <i class="fa-solid fa-robot text-2xl"></i>
+    </button>
+
+    <!-- AI Chat Modal -->
+    <div id="chat-modal" class="fixed inset-0 bg-white z-[60] hidden flex flex-col">
+        <!-- Chat Header -->
+        <div class="bg-teal-600 text-white p-4 pb-6 flex items-center justify-between shadow-lg relative z-10">
+            <div class="flex items-center space-x-3">
+                <div class="bg-white/20 p-2 rounded-full">
+                    <i class="fa-solid fa-robot text-xl"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg">Travel Assistant ✨</h3>
+                    <p class="text-xs text-teal-100">Ask about your trip!</p>
+                </div>
+            </div>
+            <button onclick="closeChat()" class="bg-black/20 p-2 rounded-full hover:bg-black/30 transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <!-- Chat Area -->
+        <div id="chat-messages" class="flex-1 overflow-y-auto p-4 bg-gray-50 space-y-3 pb-24">
+            <!-- Messages will appear here -->
+            <div class="chat-bubble chat-ai">
+                Hello! I'm your AI assistant for this Sri Lanka trip. I know your itinerary! Ask me anything about food, places, or what to pack! 🌴🐘
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="p-4 bg-white border-t border-gray-200 pb-safe fixed bottom-0 w-full">
+            <div class="flex space-x-2">
+                <input type="text" id="chat-input" placeholder="Ask something..." class="flex-1 bg-gray-100 border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-teal-500 outline-none">
+                <button onclick="sendMessage()" class="bg-teal-600 text-white w-12 h-12 rounded-xl flex items-center justify-center shadow-lg active:scale-95 transition">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Dynamic Modal -->
     <div id="universal-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl w-full max-w-sm p-6 shadow-xl transform transition-all scale-95 opacity-0" id="universal-modal-content">
@@ -525,6 +588,142 @@
         // --- Data & State ---
         let currentType = ''; // 'flight', 'hotel', 'visa', 'contact', 'map', 'itinerary'
         let currentEditIndex = -1;
+        let apiKey = ""; // Will be prompted if empty
+
+        // --- GEMINI API HELPERS ---
+        async function fetchGeminiResponse(userPrompt, systemContext = "") {
+            if (!apiKey) {
+                apiKey = localStorage.getItem('gemini_api_key');
+                if (!apiKey) {
+                    apiKey = prompt("Please enter your Google Gemini API Key to use AI features:");
+                    if (apiKey) localStorage.setItem('gemini_api_key', apiKey);
+                    else return "Error: API Key required.";
+                }
+            }
+
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const fullPrompt = systemContext ? `${systemContext}\n\nUser: ${userPrompt}` : userPrompt;
+
+            const payload = {
+                contents: [{ parts: [{ text: fullPrompt }] }]
+            };
+
+            try {
+                // Retry logic (simple)
+                for (let i = 0; i < 3; i++) {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        return data.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't understand that.";
+                    }
+                    if (response.status === 429) {
+                        await new Promise(r => setTimeout(r, 1000 * Math.pow(2, i))); // Backoff
+                        continue;
+                    }
+                    throw new Error(`API Error: ${response.status}`);
+                }
+                return "Sorry, connection failed. Please check your API key or internet.";
+            } catch (e) {
+                console.error(e);
+                return "Error connecting to AI.";
+            }
+        }
+
+        // --- CHAT FEATURE ---
+        function openChat() {
+            document.getElementById('chat-modal').classList.remove('hidden');
+        }
+
+        function closeChat() {
+            document.getElementById('chat-modal').classList.add('hidden');
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            // Add user bubble
+            const chatBox = document.getElementById('chat-messages');
+            chatBox.innerHTML += `<div class="chat-bubble chat-user">${text}</div>`;
+            input.value = "";
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Add typing indicator
+            const typingId = 'typing-' + Date.now();
+            chatBox.innerHTML += `<div id="${typingId}" class="chat-bubble chat-ai"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>`;
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Prepare Context
+            const itinerary = loadData('itinerary');
+            const context = `You are a helpful travel assistant for Stuti's trip to Sri Lanka. 
+            Here is her itinerary data: ${JSON.stringify(itinerary)}. 
+            Her flight details: ${JSON.stringify(loadData('flight'))}.
+            Answer strictly about the trip, local food, culture, or itinerary. Keep answers concise (under 50 words usually).`;
+
+            // Call API
+            const response = await fetchGeminiResponse(text, context);
+
+            // Remove typing indicator and add response
+            document.getElementById(typingId).remove();
+            
+            // Format bold text for basic markdown (**text**)
+            const formattedResponse = response.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+            
+            chatBox.innerHTML += `<div class="chat-bubble chat-ai">${formattedResponse}</div>`;
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // --- TRANSLATE FEATURE ---
+        async function translateWithGemini() {
+            const input = document.getElementById('translate-input').value;
+            if (!input) return alert("Please type something!");
+
+            const btn = document.getElementById('btn-translate');
+            const originalBtnText = btn.innerHTML;
+            btn.innerHTML = '<span class="typing-dot"></span><span class="typing-dot"></span>';
+            btn.disabled = true;
+
+            const prompt = `Translate this English text to Sinhala (Sri Lanka). 
+            Output format strictly: JSON with keys "sinhala" and "pronunciation". 
+            Text: "${input}"`;
+
+            try {
+                const raw = await fetchGeminiResponse(prompt);
+                // Clean up markdown code blocks if present
+                const jsonStr = raw.replace(/```json|```/g, '').trim();
+                let data;
+                
+                try {
+                    data = JSON.parse(jsonStr);
+                } catch(e) {
+                    // Fallback if AI returns plain text instead of JSON
+                    console.error("JSON Parse failed, falling back", e);
+                    data = { sinhala: raw, pronunciation: "" };
+                }
+
+                if (data.sinhala) {
+                    document.getElementById('t-sinhala').innerText = data.sinhala;
+                    document.getElementById('t-phonetic').innerText = data.pronunciation || "";
+                    document.getElementById('translate-result').classList.remove('hidden');
+                } else {
+                     alert("Could not interpret translation.");
+                }
+
+            } catch (e) {
+                console.error("Translation Error:", e);
+                alert("Translation failed. Please try again.");
+            }
+
+            btn.innerHTML = originalBtnText;
+            btn.disabled = false;
+        }
+
 
         const defaultItinerary = [
             { date: "2025-12-24", title: "Delhi to Hyderabad", loc: "Sneha's Place", icon: "fa-plane-departure", details: "Flight: Indigo (2 PM). Stay at Sneha." },
