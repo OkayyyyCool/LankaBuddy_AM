@@ -505,12 +505,12 @@
         <div class="bg-teal-600 text-white p-4 pb-6 flex items-center justify-between shadow-lg relative z-10">
             <div class="flex items-center space-x-3">
                 <img src="ai_icon.jpg" class="w-10 h-10 rounded-full object-cover border-2 border-white/30 shadow-sm">
-                <div><h3 class="font-bold text-lg">Skeppy ✨</h3><p class="text-xs text-teal-100">Ask about your trip!</p></div>
+                <div><h3 class="font-bold text-lg">Skeppy 🐾</h3><p class="text-xs text-teal-100">Ask about your trip!</p></div>
             </div>
             <button onclick="closeChat()" class="bg-black/20 p-2 rounded-full hover:bg-black/30 transition"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <div id="chat-messages" class="flex-1 overflow-y-auto p-4 bg-gray-50 flex flex-col space-y-3 pb-48">
-            <div class="chat-bubble chat-ai">Hello! I am Skeppy, your buddy for this trip. I know about your itinerary! Ask me anything about food, places, or what to pack! 🌴🐘</div>
+            <div class="chat-bubble chat-ai">Woof! 🐶 I am Skeppy, your travel buddy! I know your plan. Ask me about food, places, or where to find sticks! 🦴🌴</div>
         </div>
         <div class="bg-white border-t border-gray-200 fixed bottom-0 w-full z-20 pb-safe transition-all duration-300">
             <div id="chat-suggestions" class="px-4 pt-3 pb-1 flex gap-2 overflow-x-auto no-scrollbar fade-in">
@@ -947,7 +947,7 @@
             chatBox.scrollTop = chatBox.scrollHeight;
             
             // UPDATED: Context now refers to NawabSahab
-            const context = `You are NawabSahab, a helpful travel buddy for Abhishek's trip to Sri Lanka. His itinerary: ${JSON.stringify(loadData('itinerary'))}. Flight details: ${JSON.stringify(loadData('flight'))}. Answer strictly about trip/food/culture. Keep concise (<50 words). Analyze attached images if any.`;
+            const context = `You are Skeppy, Abhishek's loyal dog and travel buddy for his trip to Sri Lanka. Speak in a helpful, slightly excited, dog-like persona (use "Woof", "Bark", or emojis occasionally). His itinerary: ${JSON.stringify(loadData('itinerary'))}. Flight details: ${JSON.stringify(loadData('flight'))}. Answer strictly about trip/food/culture. Keep concise (<50 words). Analyze attached images if any.`;
             try {
                 const response = await fetchGeminiResponse(text, context, selectedImageBase64, selectedImageMime);
                 document.getElementById(typingId).remove();
