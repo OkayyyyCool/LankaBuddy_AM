@@ -99,7 +99,7 @@
     <canvas id="confetti-canvas"></canvas>
 
     <!-- Header -->
-    <header class="relative text-white pt-12 pb-6 px-6 rounded-b-[2rem] shadow-lg z-30 sticky top-0 overflow-hidden bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1586610738379-8b8396c268a7?q=80&w=2670&auto=format&fit=crop');">
+    <header class="relative text-white pt-12 pb-6 px-6 rounded-b-[2rem] shadow-lg z-30 sticky top-0 overflow-hidden bg-cover bg-center" style="background-image: url('header.jpg');">
         <div class="absolute inset-0 bg-black/40 z-0"></div>
         
         <div class="flex justify-between items-end relative z-10">
@@ -149,7 +149,7 @@
             <div id="ios-install-hint" class="hidden bg-white rounded-2xl p-5 shadow-md border border-teal-100 relative mb-6">
                 <button onclick="this.parentElement.style.display='none'" class="absolute top-2 right-2 text-gray-300 hover:text-gray-500"><i class="fa-solid fa-xmark"></i></button>
                 <div class="flex items-start space-x-4">
-                    <div class="w-12 h-12 rounded-xl bg-teal-600 flex items-center justify-center text-white font-bold text-xl shadow-sm">LB</div>
+                    <img src="icon.jpg" class="w-12 h-12 rounded-xl object-cover shadow-sm" alt="Icon" onerror="this.src='header.jpg'">
                     <div>
                         <h3 class="font-bold text-gray-800">Install LankaBuddy</h3>
                         <p class="text-xs text-gray-500 mt-1 leading-relaxed">
@@ -497,20 +497,20 @@
 
     <!-- FAB -->
     <button onclick="openChat()" class="fixed bottom-24 right-4 bg-teal-600 text-white p-0 rounded-full shadow-xl z-40 active:scale-90 transition animate-float hover:bg-teal-700 flex items-center justify-center w-14 h-14 border-4 border-white/20 overflow-hidden">
-        <i class="fa-solid fa-robot text-2xl"></i>
+        <img src="ai_icon.jpg" class="w-full h-full object-cover" alt="AI">
     </button>
 
     <!-- Chat Modal -->
     <div id="chat-modal" class="fixed inset-0 bg-white z-[60] hidden flex flex-col">
         <div class="bg-teal-600 text-white p-4 pb-6 flex items-center justify-between shadow-lg relative z-10">
             <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-full bg-white text-teal-600 flex items-center justify-center font-bold border-2 border-white/30 shadow-sm"><i class="fa-solid fa-user-astronaut"></i></div>
-                <div><h3 class="font-bold text-lg">NawabSahab ✨</h3><p class="text-xs text-teal-100">Ask about your trip!</p></div>
+                <img src="ai_icon.jpg" class="w-10 h-10 rounded-full object-cover border-2 border-white/30 shadow-sm">
+                <div><h3 class="font-bold text-lg">Skeppy ✨</h3><p class="text-xs text-teal-100">Ask about your trip!</p></div>
             </div>
             <button onclick="closeChat()" class="bg-black/20 p-2 rounded-full hover:bg-black/30 transition"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <div id="chat-messages" class="flex-1 overflow-y-auto p-4 bg-gray-50 flex flex-col space-y-3 pb-48">
-            <div class="chat-bubble chat-ai">Hello! I am NawabSahab, your buddy for this trip. I know about your itinerary! Ask me anything about food, places, or what to pack! 🌴🐘</div>
+            <div class="chat-bubble chat-ai">Hello! I am Skeppy, your buddy for this trip. I know about your itinerary! Ask me anything about food, places, or what to pack! 🌴🐘</div>
         </div>
         <div class="bg-white border-t border-gray-200 fixed bottom-0 w-full z-20 pb-safe transition-all duration-300">
             <div id="chat-suggestions" class="px-4 pt-3 pb-1 flex gap-2 overflow-x-auto no-scrollbar fade-in">
