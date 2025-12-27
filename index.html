@@ -5,26 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>LankaBuddy ❤️</title>
     
-    <!-- iOS Web App Config -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="LankaBuddy">
-    <!-- Uses the local icon.jpg for the app icon -->
     <link rel="apple-touch-icon" href="icon.jpg">
 
-    <!-- PWA Manifest Placeholder (Will be filled by JS) -->
     <link rel="manifest" id="pwa-manifest">
 
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Dynamic Manifest Script -->
     <script>
         // This script runs immediately to fix the Icon URL for Android PWA install
         (function() {
@@ -98,7 +91,6 @@
 <body class="bg-gray-50 text-gray-800 min-h-screen pb-24">
     <canvas id="confetti-canvas"></canvas>
 
-    <!-- Header -->
     <header class="relative text-white pt-12 pb-6 px-6 rounded-b-[2rem] shadow-lg z-30 sticky top-0 overflow-hidden bg-cover bg-center" style="background-image: url('header.jpg');">
         <div class="absolute inset-0 bg-black/40 z-0"></div>
         
@@ -108,7 +100,6 @@
                 <h1 class="text-3xl font-bold drop-shadow-md">Abhishek's 2025 Year-End Trip</h1>
             </div>
             <div class="text-right">
-                <!-- Time Box (Liquid Glass Style) -->
                 <div class="bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-xl rounded-3xl border border-white/30 shadow-[0_8px_32px_0_rgba(0,0,0,0.1)] flex flex-col items-center justify-center w-28 h-28 relative overflow-hidden">
                     <div class="absolute -top-6 -left-6 w-16 h-16 bg-white/10 rounded-full blur-xl pointer-events-none"></div>
                     <div id="sl-time" class="text-3xl font-bold drop-shadow-sm leading-none mb-1 tracking-tight relative z-10">--:--</div>
@@ -119,13 +110,10 @@
         </div>
     </header>
 
-    <!-- Main Content Area -->
     <main id="main-container" class="flex-1 relative">
         
-        <!-- SECTION: DASHBOARD (Default) -->
         <section id="view-dashboard" class="p-4 space-y-4 fade-in">
             
-            <!-- PWA Install Prompt (Android/Desktop) -->
             <div id="install-prompt" class="hidden bg-teal-800 rounded-2xl p-5 shadow-xl text-white relative overflow-hidden mb-6">
                  <div class="relative z-10">
                      <div class="flex justify-between items-start">
@@ -145,7 +133,6 @@
                  <i class="fa-solid fa-mobile-screen absolute -bottom-6 -right-6 text-9xl text-white opacity-5 rotate-12"></i>
             </div>
 
-            <!-- iOS Install Hint -->
             <div id="ios-install-hint" class="hidden bg-white rounded-2xl p-5 shadow-md border border-teal-100 relative mb-6">
                 <button onclick="this.parentElement.style.display='none'" class="absolute top-2 right-2 text-gray-300 hover:text-gray-500"><i class="fa-solid fa-xmark"></i></button>
                 <div class="flex items-start space-x-4">
@@ -161,13 +148,10 @@
                 </div>
             </div>
 
-            <!-- Countdown Card (New) -->
             <div id="countdown-card" class="rounded-2xl p-6 shadow-lg text-white mb-6 relative overflow-hidden transition-all duration-1000 bg-gradient-to-br from-teal-500 to-teal-800">
-                <!-- Background Decor -->
                 <i id="cd-bg-icon" class="fa-solid fa-calendar-days absolute -right-6 -bottom-6 text-9xl opacity-10"></i>
                 <div class="absolute inset-0 bg-black/10 z-0"></div>
                 
-                <!-- Content -->
                 <div class="relative z-10 flex flex-col items-center text-center">
                     <div class="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider mb-3 border border-white/20 shadow-sm" id="cd-pill">
                         Upcoming
@@ -201,7 +185,6 @@
                 </div>
             </div>
 
-            <!-- Quick Connect -->
             <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
                 <div class="flex items-center space-x-2 mb-4">
                     <i class="fa-solid fa-address-book text-gray-400"></i>
@@ -210,7 +193,6 @@
                 <div id="contacts-container" class="grid grid-cols-2 gap-4"></div>
             </div>
 
-            <!-- Important Docs (Updated: Green Background, White Tabs) -->
             <div class="bg-teal-50 rounded-2xl p-5 shadow-sm border border-teal-100">
                 <div class="flex items-center space-x-2 mb-4">
                     <i class="fa-solid fa-folder-open text-teal-600"></i>
@@ -232,14 +214,12 @@
                 </div>
             </div>
 
-            <!-- Quick Share (Updated: Added Icon) -->
             <div class="bg-indigo-50 rounded-2xl p-5 shadow-sm border border-indigo-100">
                 <div class="flex items-center space-x-2 mb-4">
                     <i class="fa-solid fa-share-nodes text-indigo-500"></i>
                     <h2 class="text-xs font-bold text-indigo-500 uppercase tracking-wider">Quick Share</h2>
                 </div>
                 <div class="space-y-3">
-                    <!-- Phone Number -->
                     <div class="flex space-x-2">
                         <input type="tel" id="sl-phone-input" placeholder="My Local Number" class="flex-1 bg-white border border-indigo-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-400 text-gray-700 font-medium">
                         <button onclick="sharePhoneNumber()" class="bg-indigo-600 text-white w-10 h-10 rounded-xl flex items-center justify-center shadow-md active:scale-95 transition">
@@ -247,7 +227,6 @@
                         </button>
                     </div>
                     
-                    <!-- Share Location -->
                     <button onclick="shareLocation()" class="w-full bg-white border border-indigo-200 text-indigo-700 py-3 rounded-xl font-bold text-sm shadow-sm flex items-center justify-center space-x-2 active:scale-95 transition hover:bg-indigo-50">
                         <i class="fa-solid fa-location-crosshairs text-indigo-500"></i>
                         <span>Share Live Location</span>
@@ -255,7 +234,6 @@
                 </div>
             </div>
 
-            <!-- SOS / Emergency -->
             <div class="bg-red-50 rounded-2xl p-5 shadow-sm border border-red-100">
                 <div class="flex items-center space-x-2 mb-4">
                     <i class="fa-solid fa-triangle-exclamation text-red-600"></i>
@@ -293,7 +271,6 @@
             <div class="text-center text-xs text-gray-400 mt-8 mb-8 pb-4">Made with 💖 by Kim-Shin</div>
         </section>
 
-        <!-- SECTION: FLIGHTS -->
         <section id="view-flights" class="p-4 hidden pb-20">
             <button onclick="switchTab('dashboard')" class="mb-4 flex items-center text-teal-600 font-medium text-sm">
                 <i class="fa-solid fa-chevron-left mr-2"></i> Back to Dashboard
@@ -308,7 +285,6 @@
             </button>
         </section>
 
-        <!-- SECTION: HOTELS -->
         <section id="view-hotels" class="p-4 hidden pb-20">
             <button onclick="switchTab('dashboard')" class="mb-4 flex items-center text-teal-600 font-medium text-sm">
                 <i class="fa-solid fa-chevron-left mr-2"></i> Back to Dashboard
@@ -323,7 +299,6 @@
             </button>
         </section>
 
-        <!-- SECTION: VISA -->
         <section id="view-visa" class="p-4 hidden pb-20">
             <button onclick="switchTab('dashboard')" class="mb-4 flex items-center text-teal-600 font-medium text-sm">
                 <i class="fa-solid fa-chevron-left mr-2"></i> Back to Dashboard
@@ -338,7 +313,6 @@
             </button>
         </section>
 
-        <!-- SECTION: MAP & TRANSPORT -->
         <section id="view-map" class="p-4 hidden pb-20">
             <button onclick="switchTab('dashboard')" class="mb-4 flex items-center text-teal-600 font-medium text-sm">
                 <i class="fa-solid fa-chevron-left mr-2"></i> Back to Dashboard
@@ -394,7 +368,6 @@
             </button>
         </section>
 
-        <!-- SECTION: ITINERARY (Plan) -->
         <section id="view-plan" class="p-4 hidden pb-20">
             <h2 class="text-xl font-bold mb-6 px-2">Your Itinerary</h2>
             <div class="relative pl-2" id="itinerary-container"><div class="timeline-line"></div></div>
@@ -403,9 +376,7 @@
             </button>
         </section>
 
-        <!-- SECTION: TOOLS -->
         <section id="view-tools" class="p-4 hidden pb-24">
-            <!-- Translate -->
             <div class="bg-gradient-to-br from-teal-500 to-teal-700 rounded-2xl p-6 shadow-md mb-6 text-white relative">
                 <h3 class="font-bold text-lg mb-2"><i class="fa-solid fa-language mr-2"></i>Translate</h3>
                 <p class="text-xs text-teal-100 mb-4">Type English to get Sinhala + pronunciation!</p>
@@ -414,7 +385,6 @@
                     <button onclick="translateWithGemini()" class="w-full bg-white text-teal-700 font-bold py-3 rounded-xl shadow hover:bg-gray-50 transition active:scale-95 flex items-center justify-center space-x-2" id="btn-translate">
                         <i class="fa-solid fa-wand-magic-sparkles text-xs"></i><span>Translate</span>
                     </button>
-                    <!-- Updated Result Area with Audio Button -->
                     <div id="translate-result" class="hidden bg-black/20 rounded-xl p-3 mt-3 border border-white/10">
                         <div class="flex justify-between items-start">
                             <div>
@@ -430,7 +400,6 @@
                 </div>
             </div>
 
-            <!-- Currency -->
             <div class="bg-white rounded-2xl p-6 shadow-md mb-6 relative overflow-hidden">
                 <div class="absolute -right-4 -top-4 text-gray-100 text-9xl z-0"><i class="fa-solid fa-coins"></i></div>
                 <h3 class="font-bold text-lg mb-4 relative z-10">Rupee Converter</h3>
@@ -448,11 +417,10 @@
                 </div>
             </div>
 
-            <!-- LocalSend -->
             <div class="mb-6">
                 <button onclick="openLocalSend()" class="w-full bg-orange-50 border border-orange-100 p-4 rounded-2xl shadow-sm flex items-center justify-between active:scale-95 transition text-left">
                     <div class="flex items-center space-x-4 overflow-hidden">
-                        <div class="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-bold">LS</div>
+                        <img src="localsend.jpg" class="w-10 h-10 rounded-full object-cover shadow-sm shrink-0" alt="LocalSend">
                         <div class="text-left min-w-0">
                             <span class="font-bold text-gray-800 block text-lg">LocalSend</span>
                             <span class="text-[10px] text-orange-800 leading-tight block">AirDrop alternative to share photos/videos across platforms</span>
@@ -462,11 +430,10 @@
                 </button>
             </div>
 
-            <!-- Niyo -->
             <div class="mb-6">
                 <button onclick="openNiyo()" class="w-full bg-blue-50 border border-blue-100 p-4 rounded-2xl shadow-sm flex items-center justify-between active:scale-95 transition text-left">
                     <div class="flex items-center space-x-4 overflow-hidden">
-                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold">N</div>
+                        <img src="niyo.jpg" class="w-10 h-10 rounded-full object-cover shadow-sm shrink-0" alt="Niyo">
                         <div class="text-left min-w-0">
                             <span class="font-bold text-gray-800 block text-lg">Niyo Global</span>
                             <span class="text-[10px] text-blue-800 leading-tight block">Manage travel card & forex</span>
@@ -479,7 +446,6 @@
             <h3 class="font-bold text-lg mb-4 px-2">Common Phrases</h3>
             <div id="translate-container" class="grid gap-3"></div>
 
-            <!-- API Key Settings (New Section) -->
             <div class="mt-8 bg-gray-800 text-white rounded-2xl p-6 shadow-md relative overflow-hidden">
                 <div class="absolute -right-4 -top-4 text-gray-700 text-9xl z-0 opacity-20"><i class="fa-solid fa-key"></i></div>
                 <h3 class="font-bold text-lg mb-2 relative z-10"><i class="fa-solid fa-key mr-2"></i>AI Settings</h3>
@@ -495,22 +461,20 @@
         </section>
     </main>
 
-    <!-- FAB -->
     <button onclick="openChat()" class="fixed bottom-24 right-4 bg-teal-600 text-white p-0 rounded-full shadow-xl z-40 active:scale-90 transition animate-float hover:bg-teal-700 flex items-center justify-center w-14 h-14 border-4 border-white/20 overflow-hidden">
         <img src="ai_icon.jpg" class="w-full h-full object-cover" alt="AI">
     </button>
 
-    <!-- Chat Modal -->
     <div id="chat-modal" class="fixed inset-0 bg-white z-[60] hidden flex flex-col">
         <div class="bg-teal-600 text-white p-4 pb-6 flex items-center justify-between shadow-lg relative z-10">
             <div class="flex items-center space-x-3">
                 <img src="ai_icon.jpg" class="w-10 h-10 rounded-full object-cover border-2 border-white/30 shadow-sm">
-                <div><h3 class="font-bold text-lg">Skeppy 🐾</h3><p class="text-xs text-teal-100">Ask about your trip!</p></div>
+                <div><h3 class="font-bold text-lg">NawabSahab ✨</h3><p class="text-xs text-teal-100">Ask about your trip!</p></div>
             </div>
             <button onclick="closeChat()" class="bg-black/20 p-2 rounded-full hover:bg-black/30 transition"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <div id="chat-messages" class="flex-1 overflow-y-auto p-4 bg-gray-50 flex flex-col space-y-3 pb-48">
-            <div class="chat-bubble chat-ai">Woof! 🐶 I am Skeppy, your travel buddy! I know your plan. Ask me about food, places, or where to find sticks! 🦴🌴</div>
+            <div class="chat-bubble chat-ai">Hello! I am NawabSahab, your buddy for this trip. I know about your itinerary! Ask me anything about food, places, or what to pack! 🌴🐘</div>
         </div>
         <div class="bg-white border-t border-gray-200 fixed bottom-0 w-full z-20 pb-safe transition-all duration-300">
             <div id="chat-suggestions" class="px-4 pt-3 pb-1 flex gap-2 overflow-x-auto no-scrollbar fade-in">
@@ -534,7 +498,6 @@
         </div>
     </div>
 
-    <!-- Data Entry Modal -->
     <div id="universal-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl w-full max-w-sm p-6 shadow-xl transform transition-all scale-95 opacity-0" id="universal-modal-content">
             <h3 class="text-lg font-bold mb-4" id="modal-title">Add Details</h3>
@@ -555,7 +518,6 @@
         </div>
     </div>
 
-    <!-- Bottom Nav -->
     <nav class="bg-white border-t border-gray-200 pb-safe pt-2 px-6 flex justify-between items-center z-50 h-20 shadow-[0_-5px_10px_rgba(0,0,0,0.02)] fixed bottom-0 w-full left-0">
         <button onclick="switchTab('dashboard')" class="nav-btn flex flex-col items-center space-y-1 w-16" id="nav-dashboard"><i class="fa-solid fa-house text-xl mb-1"></i><span class="text-[10px] font-medium">Home</span></button>
         <button onclick="switchTab('plan')" class="nav-btn flex flex-col items-center space-y-1 w-16" id="nav-plan"><i class="fa-solid fa-map-location-dot text-xl mb-1"></i><span class="text-[10px] font-medium">Plan</span></button>
@@ -947,7 +909,7 @@
             chatBox.scrollTop = chatBox.scrollHeight;
             
             // UPDATED: Context now refers to NawabSahab
-            const context = `You are Skeppy, Abhishek's loyal dog and travel buddy for his trip to Sri Lanka. Speak in a helpful, slightly excited, dog-like persona (use "Woof", "Bark", or emojis occasionally). His itinerary: ${JSON.stringify(loadData('itinerary'))}. Flight details: ${JSON.stringify(loadData('flight'))}. Answer strictly about trip/food/culture. Keep concise (<50 words). Analyze attached images if any.`;
+            const context = `You are NawabSahab, a helpful travel buddy for Abhishek's trip to Sri Lanka. His itinerary: ${JSON.stringify(loadData('itinerary'))}. Flight details: ${JSON.stringify(loadData('flight'))}. Answer strictly about trip/food/culture. Keep concise (<50 words). Analyze attached images if any.`;
             try {
                 const response = await fetchGeminiResponse(text, context, selectedImageBase64, selectedImageMime);
                 document.getElementById(typingId).remove();
