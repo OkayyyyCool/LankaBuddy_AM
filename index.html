@@ -99,13 +99,13 @@
     <canvas id="confetti-canvas"></canvas>
 
     <!-- Header -->
-    <header class="relative text-white pt-12 pb-6 px-6 rounded-b-[2rem] shadow-lg z-30 sticky top-0 overflow-hidden bg-cover bg-center" style="background-image: url('header.jpg');">
+    <header class="relative text-white pt-12 pb-6 px-6 rounded-b-[2rem] shadow-lg z-30 sticky top-0 overflow-hidden bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1586610738379-8b8396c268a7?q=80&w=2670&auto=format&fit=crop');">
         <div class="absolute inset-0 bg-black/40 z-0"></div>
         
         <div class="flex justify-between items-end relative z-10">
             <div>
-                <p class="text-teal-100 text-sm font-medium mb-1 drop-shadow-md">Dec 24 - Jan 3</p>
-                <h1 class="text-3xl font-bold drop-shadow-md">Stuti's 2025 Year-End Trip</h1>
+                <p class="text-teal-100 text-sm font-medium mb-1 drop-shadow-md">Dec 25 - Jan 02</p>
+                <h1 class="text-3xl font-bold drop-shadow-md">Abhishek's 2025 Year-End Trip</h1>
             </div>
             <div class="text-right">
                 <!-- Time Box (Liquid Glass Style) -->
@@ -149,7 +149,7 @@
             <div id="ios-install-hint" class="hidden bg-white rounded-2xl p-5 shadow-md border border-teal-100 relative mb-6">
                 <button onclick="this.parentElement.style.display='none'" class="absolute top-2 right-2 text-gray-300 hover:text-gray-500"><i class="fa-solid fa-xmark"></i></button>
                 <div class="flex items-start space-x-4">
-                    <img src="icon.jpg" class="w-12 h-12 rounded-xl object-cover shadow-sm" alt="Icon" onerror="this.src='header.jpg'">
+                    <div class="w-12 h-12 rounded-xl bg-teal-600 flex items-center justify-center text-white font-bold text-xl shadow-sm">LB</div>
                     <div>
                         <h3 class="font-bold text-gray-800">Install LankaBuddy</h3>
                         <p class="text-xs text-gray-500 mt-1 leading-relaxed">
@@ -452,7 +452,7 @@
             <div class="mb-6">
                 <button onclick="openLocalSend()" class="w-full bg-orange-50 border border-orange-100 p-4 rounded-2xl shadow-sm flex items-center justify-between active:scale-95 transition text-left">
                     <div class="flex items-center space-x-4 overflow-hidden">
-                        <img src="localsend.jpg" class="w-10 h-10 rounded-full object-cover shadow-sm shrink-0" alt="LocalSend">
+                        <div class="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-bold">LS</div>
                         <div class="text-left min-w-0">
                             <span class="font-bold text-gray-800 block text-lg">LocalSend</span>
                             <span class="text-[10px] text-orange-800 leading-tight block">AirDrop alternative to share photos/videos across platforms</span>
@@ -466,7 +466,7 @@
             <div class="mb-6">
                 <button onclick="openNiyo()" class="w-full bg-blue-50 border border-blue-100 p-4 rounded-2xl shadow-sm flex items-center justify-between active:scale-95 transition text-left">
                     <div class="flex items-center space-x-4 overflow-hidden">
-                        <img src="niyo.jpg" class="w-10 h-10 rounded-full object-cover shadow-sm shrink-0" alt="Niyo">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold">N</div>
                         <div class="text-left min-w-0">
                             <span class="font-bold text-gray-800 block text-lg">Niyo Global</span>
                             <span class="text-[10px] text-blue-800 leading-tight block">Manage travel card & forex</span>
@@ -497,20 +497,20 @@
 
     <!-- FAB -->
     <button onclick="openChat()" class="fixed bottom-24 right-4 bg-teal-600 text-white p-0 rounded-full shadow-xl z-40 active:scale-90 transition animate-float hover:bg-teal-700 flex items-center justify-center w-14 h-14 border-4 border-white/20 overflow-hidden">
-        <img src="ai_icon.jpg" class="w-full h-full object-cover" alt="AI">
+        <i class="fa-solid fa-robot text-2xl"></i>
     </button>
 
     <!-- Chat Modal -->
     <div id="chat-modal" class="fixed inset-0 bg-white z-[60] hidden flex flex-col">
         <div class="bg-teal-600 text-white p-4 pb-6 flex items-center justify-between shadow-lg relative z-10">
             <div class="flex items-center space-x-3">
-                <img src="ai_icon.jpg" class="w-10 h-10 rounded-full object-cover border-2 border-white/30 shadow-sm">
-                <div><h3 class="font-bold text-lg">Kim Shin ✨</h3><p class="text-xs text-teal-100">Ask about your trip!</p></div>
+                <div class="w-10 h-10 rounded-full bg-white text-teal-600 flex items-center justify-center font-bold border-2 border-white/30 shadow-sm"><i class="fa-solid fa-user-astronaut"></i></div>
+                <div><h3 class="font-bold text-lg">NawabSahab ✨</h3><p class="text-xs text-teal-100">Ask about your trip!</p></div>
             </div>
             <button onclick="closeChat()" class="bg-black/20 p-2 rounded-full hover:bg-black/30 transition"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <div id="chat-messages" class="flex-1 overflow-y-auto p-4 bg-gray-50 flex flex-col space-y-3 pb-48">
-            <div class="chat-bubble chat-ai">Hello! I am Kim Shin, your buddy for this trip. I know about your itinerary! Ask me anything about food, places, or what to pack! 🌴🐘</div>
+            <div class="chat-bubble chat-ai">Hello! I am NawabSahab, your buddy for this trip. I know about your itinerary! Ask me anything about food, places, or what to pack! 🌴🐘</div>
         </div>
         <div class="bg-white border-t border-gray-200 fixed bottom-0 w-full z-20 pb-safe transition-all duration-300">
             <div id="chat-suggestions" class="px-4 pt-3 pb-1 flex gap-2 overflow-x-auto no-scrollbar fade-in">
@@ -572,8 +572,8 @@
         let confettiInterval = null;
 
         // --- Data ---
+        // UPDATED: Removed Delhi legs. Trip starts in Colombo for Abhishek.
         const defaultItinerary = [
-            { date: "2025-12-24", title: "Delhi to Hyderabad", loc: "Sneha's Place", icon: "fa-plane-departure", details: "Flight: Indigo (2 PM). Stay at Sneha." },
             { date: "2025-12-25", title: "Fly to Colombo", loc: "Murphy’s Villa", icon: "fa-plane", details: "HYD to CMB (8:45 AM - 10:45 AM). Relax and check-in." },
             { date: "2025-12-26", title: "Travel to Sigiriya", loc: "Boutique Hotel", icon: "fa-bus", details: "Travel by Bus. Explore Sigiriya Fortress (Lion Rock)." },
             { date: "2025-12-27", title: "Sigiriya to Kandy", loc: "Hill Crest Greens", icon: "fa-city", details: "Travel to Kandy. Roam around the city, visit Temple of Tooth." },
@@ -582,16 +582,13 @@
             { date: "2025-12-30", title: "To Mirissa", loc: "Beach Area", icon: "fa-umbrella-beach", details: "Travel to coast. Explore beaches." },
             { date: "2025-12-31", title: "Snorkeling & NYE", loc: "Mirissa", icon: "fa-champagne-glasses", details: "Morning: Snorkeling. Evening: New Year's Party!" },
             { date: "2026-01-01", title: "To Colombo/Negombo", loc: "Near Airport", icon: "fa-car", details: "Travel back towards capital/airport area." },
-            { date: "2026-01-02", title: "Fly to Hyderabad", loc: "Hyderabad", icon: "fa-plane-arrival", details: "Colombo to HYD." },
-            { date: "2026-01-03", title: "Home Sweet Home", loc: "Delhi", icon: "fa-house-chimney", details: "HYD to DEL." }
+            { date: "2026-01-02", title: "Fly to Hyderabad", loc: "Hyderabad", icon: "fa-plane-arrival", details: "Colombo to HYD." }
         ];
 
-        // ... (Rest of Default Data Arrays remain same) ...
+        // UPDATED: Removed Delhi legs and cleared specific Stuti links
         const defaultFlights = [
-            { title: "Delhi to Hyderabad", date: "2025-12-24", link1: "https://drive.google.com/file/d/12XgJcZeCWtT0Joqf5PbVJeOX-a4L-l1j/view?usp=drive_link", link2: "" },
-            { title: "Hyderabad to Colombo", date: "2025-12-25", link1: "https://drive.google.com/file/d/1ipk1moPSCL3FSxHaZ18et44Nkp2hmoUO/view?usp=sharing", link2: "" },
-            { title: "Colombo to Hyderabad", date: "2026-01-02", link1: "https://drive.google.com/file/d/1Hy3m38VOvwDACErdxzRupuqNICt1aWj_/view?usp=drive_link", link2: "" },
-            { title: "Hyderabad to Delhi", date: "2026-01-03", link1: "https://drive.google.com/file/d/12XgJcZeCWtT0Joqf5PbVJeOX-a4L-l1j/view?usp=drive_link", link2: "" }
+            { title: "Hyderabad to Colombo", date: "2025-12-25", link1: "", link2: "" },
+            { title: "Colombo to Hyderabad", date: "2026-01-02", link1: "", link2: "" }
         ];
 
         const defaultHotels = [
@@ -616,9 +613,10 @@
             { title: "Mirissa Beach", loc: "Mirissa", query: "https://maps.app.goo.gl/63dXmesi4R17Ttz26" },
         ];
         
+        // UPDATED: Contact Roles
         const defaultContacts = [
-            { title: "Shreyans", date: "Boyfriend", link1: "918588061305", link2: "918588061305", color: "blue", image: "contact1.jpeg" },
-            { title: "Samridhi", date: "Sister", link1: "918586960219", link2: "918586960219", color: "purple", image: "contact2.jpg" }
+            { title: "Shreyans", date: "Friend", link1: "918588061305", link2: "918588061305", color: "blue", image: "contact1.jpeg" },
+            { title: "Samridhi", date: "Stuti's Sister", link1: "918586960219", link2: "918586960219", color: "purple", image: "contact2.jpg" }
         ];
 
         const translations = [
@@ -947,7 +945,9 @@
             const typingId = 'typing-' + Date.now();
             chatBox.innerHTML += `<div id="${typingId}" class="chat-bubble chat-ai"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>`;
             chatBox.scrollTop = chatBox.scrollHeight;
-            const context = `You are Kim Shin, a helpful travel buddy for Stuti's trip to Sri Lanka. Her itinerary: ${JSON.stringify(loadData('itinerary'))}. Flight details: ${JSON.stringify(loadData('flight'))}. Answer strictly about trip/food/culture. Keep concise (<50 words). Analyze attached images if any.`;
+            
+            // UPDATED: Context now refers to NawabSahab
+            const context = `You are NawabSahab, a helpful travel buddy for Abhishek's trip to Sri Lanka. His itinerary: ${JSON.stringify(loadData('itinerary'))}. Flight details: ${JSON.stringify(loadData('flight'))}. Answer strictly about trip/food/culture. Keep concise (<50 words). Analyze attached images if any.`;
             try {
                 const response = await fetchGeminiResponse(text, context, selectedImageBase64, selectedImageMime);
                 document.getElementById(typingId).remove();
@@ -1145,7 +1145,7 @@
                         <div class="flex justify-between items-start mb-2 pr-8"><h3 class="font-bold text-lg text-gray-800 leading-tight">${item.title}</h3></div>
                         <span class="bg-${color}-50 text-${color}-700 text-xs font-bold px-2 py-1 rounded-md mb-4 inline-block">${displayDate}</span>
                         <div class="space-y-2 mt-2">
-                            ${item.link1 ? `<a href="${item.link1}" target="_blank" class="flex items-center justify-between p-3 rounded-lg border border-${color}-100 bg-${color}-50/50 hover:bg-${color}-100 transition group"><div class="flex items-center space-x-3"><div class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-${color}-600 shadow-sm"><i class="fa-solid ${icon}"></i></div><span class="text-sm font-medium text-gray-700 group-hover:text-${color}-800">${label1}</span></div><i class="fa-solid fa-arrow-up-right-from-square text-xs text-${color}-400"></i></a>` : `<button onclick="openModal('${type}', ${index})" class="w-full flex items-center justify-between p-3 rounded-lg border border-dashed border-${color}-200 text-center text-xs text-${color}-400 hover:bg-${color}-50 hover:border-${color}-300 transition"><span class="w-full">Add ${label1} +</span></button>`}
+                            ${item.link1 ? `<a href="${item.link1}" target="_blank" class="flex items-center justify-between p-3 rounded-lg border border-${color}-100 bg-${color}-50/50 hover:bg-${color}-100 transition group"><div class="flex items-center space-x-3"><div class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-${color}-600 shadow-sm"><i class="fa-solid ${icon}"></i></div><span class="text-sm font-medium text-gray-700 group-hover:text-${color}-800">${label1}</span></div><i class="fa-solid fa-arrow-up-right-from-square text-xs text-${color}-400"></i></a>` : `<button onclick="openModal('${type}', ${index})" class="w-full flex items-center justify-between p-3 rounded-lg border border-dashed border-${color}-200 bg-${color}-50/30 hover:bg-${color}-50 hover:border-${color}-300 transition group cursor-pointer"><div class="flex items-center space-x-3"><div class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-gray-300 shadow-sm group-hover:text-${color}-400"><i class="fa-solid fa-plus"></i></div><span class="text-sm font-medium text-gray-400 group-hover:text-${color}-600">Add ${label1}</span></div></button>`}
                             ${type === 'flight' ? (item.link2 ? `<a href="${item.link2}" target="_blank" class="flex items-center justify-between p-3 rounded-lg border border-purple-100 bg-purple-50/50 hover:bg-purple-100 transition group"><div class="flex items-center space-x-3"><div class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-purple-600 shadow-sm"><i class="fa-solid fa-ticket"></i></div><span class="text-sm font-medium text-gray-700 group-hover:text-purple-800">${label2}</span></div><i class="fa-solid fa-arrow-up-right-from-square text-xs text-purple-400"></i></a>` : `<button onclick="openModal('${type}', ${index})" class="w-full flex items-center justify-between p-3 rounded-lg border border-dashed border-purple-200 bg-purple-50/30 hover:bg-purple-50 hover:border-purple-300 transition group cursor-pointer"><div class="flex items-center space-x-3"><div class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-gray-300 shadow-sm group-hover:text-purple-400"><i class="fa-solid fa-plus"></i></div><span class="text-sm font-medium text-gray-400 group-hover:text-purple-600">Add ${label2}</span></div></button>`) : ''}
                         </div>
                     </div>`;
